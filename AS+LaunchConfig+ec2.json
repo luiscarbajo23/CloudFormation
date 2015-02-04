@@ -43,8 +43,9 @@
       			"HealthCheckGracePeriod" : 5,
       			"HealthCheckType" : "ELB",
       			"LaunchConfigurationName" : {"Ref" : "LaunchConfig"},
-				"MaxSize" : "5",
-				"MinSize" : "2",
+				    "MaxSize" : "5",
+				    "MinSize" : "2",
+            "DesiredCapacity" : "2",
 				"VPCZoneIdentifier" : ["subnet-ed538988","subnet-99dc3bc0","subnet-0dc7077a"]
    			}
 	 	},
