@@ -23,47 +23,44 @@
 
 	 "Resources" : {
 
-	 	"LaunchConfig" : {
-	 		"Type" : "AWS::AutoScaling::LaunchConfiguration",
-   			"Properties" : {
-      			"AssociatePublicIpAddress" : "true",
-      			"ImageId" : "ami-9d23aeea",
-      			"InstanceType" : "t2.micro",
-      			"KeyName" : {"Ref" : "KeyPairName"},
-      			"SecurityGroups" : [ {"Ref" : "SecGroup"} ]
-   			}
-     
-	 	},
+      "SecGroup" : {
+          "Type" : "AWS::EC2::SecurityGroup",
+          "Properties" : {
+              "GroupDescription" : "Enable SSH access via port 22",
+              "SecurityGroupIngress" : [ {
+                  "IpProtocol" : "tcp",
+                  "FromPort" : "22",
+                  "ToPort" : "22",
+                  "CidrIp" : { "Ref" : "SSHLocation"}
+              } ]
+          }
+      },
 
-	 	"AS" : {
-	 		"Type" : "AWS::AutoScaling::AutoScalingGroup",
-   			"Properties" : {
-      			"AvailabilityZones" : [ "eu-west-1a","eu-west-1b","eu-west-1c" ],
-      			"Cooldown" : "30",
-      			"HealthCheckGracePeriod" : 5,
-      			"HealthCheckType" : "ELB",
-      			"LaunchConfigurationName" : {"Ref" : "LaunchConfig"},
-				    "MaxSize" : "5",
-				    "MinSize" : "2",
-            "DesiredCapacity" : "2",
-				"VPCZoneIdentifier" : ["subnet-ed538988","subnet-99dc3bc0","subnet-0dc7077a"]
-   			}
-	 	},
+  	 	"LaunchConfig" : {
+  	 		"Type" : "AWS::AutoScaling::LaunchConfiguration",
+     			"Properties" : {
+        			"AssociatePublicIpAddress" : "true",
+        			"ImageId" : "ami-9d23aeea",
+        			"InstanceType" : "t2.micro",
+        			"KeyName" : {"Ref" : "KeyPairName"},
+        			"SecurityGroups" : [ {"Ref" : "SecGroup"} ]
+     			}
+       
+  	 	},
 
-
-	 	"SecGroup" : {
-            "Type" : "AWS::EC2::SecurityGroup",
-            "Properties" : {
-                "GroupDescription" : "Enable SSH access via port 22",
-                "SecurityGroupIngress" : [ {
-                    "IpProtocol" : "tcp",
-                    "FromPort" : "22",
-                    "ToPort" : "22",
-                    "CidrIp" : { "Ref" : "SSHLocation"}
-                } ]
-            }
-        }
-
+  	 	"AS" : {
+  	 		"Type" : "AWS::AutoScaling::AutoScalingGroup",
+     			"Properties" : {
+        			"AvailabilityZones" : [ "eu-west-1a","eu-west-1b","eu-west-1c" ],
+        			"Cooldown" : "30",
+        			"HealthCheckGracePeriod" : 5,
+        			"HealthCheckType" : "ELB",
+        			"LaunchConfigurationName" : {"Ref" : "LaunchConfig"},
+  				    "MaxSize" : "5",
+  				    "MinSize" : "2",
+              "DesiredCapacity" : "2",
+  				"VPCZoneIdentifier" : ["subnet-ed538988","subnet-99dc3bc0","subnet-0dc7077a"]
+     			}
+  	 	}
 	 }
-
 }
